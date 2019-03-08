@@ -1,1 +1,1 @@
-# docker-splunk-mysql-brute
+ docker-compose up --build
