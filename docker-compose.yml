@@ -6,10 +6,12 @@ services:
       context: ./nmap
       dockerfile: Dockerfile
     image: docker-nmap
-    restart: always
+    restart: "no"
     networks:
       - splunk
     container_name: docker-nmap
+    depends_on:
+      - "docker-splunk"
   docker-mysql:
     hostname: docker-mysql
     build:
@@ -48,6 +50,8 @@ services:
       - "8088:8088"
       - "1514:1514"
       - "514:514/udp"
+    depends_on:
+      - "docker-mysql"
     restart: always
     container_name: docker-splunk
 volumes:
