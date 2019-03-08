@@ -8,4 +8,3 @@ RUN apk update && apk add \
 	&& rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["/usr/bin/nmap"]
-CMD ["--help"]

@@ -1,11 +1,55 @@
 version: '3.7'
 services:
+  nmap:
+    hostname: nmap
+    build:
+      context: ./nmap
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - splunk
+    container_name: nmap
   mysql:
+    hostname: mysql
     build:
       context: ./mysql
       dockerfile: Dockerfile
     ports:
       - "3306:3306"
-    restart: always
-    network_mode: bridge
+    restart: "no"
+    networks:
+      - splunk
+    volumes:
+      - var_log_mysql:/var/log/mysql
     container_name: mysql
+  splunk:
+    hostname: splunkenterprise
+    build:
+      context: ./splunk
+      dockerfile: Dockerfile
+    environment:
+      - SPLUNK_ENABLE_LISTEN=9997
+      - SPLUNK_START_ARGS=--accept-license --no-prompt --answer-yes
+      - SPLUNK_USERNAME=admin
+      - SPLUNK_PASSWORD=password
+    restart: always
+    networks:
+      - splunk
+    volumes:
+      - opt_splunk_etc:/opt/splunk/etc
+      - opt_splunk_var:/opt/splunk/var
+      - var_log_mysql:/var/log/mysql
+    ports:
+      - "8000:8000"
+      - "9997:9997"
+      - "8088:8088"
+      - "1514:1514"
+      - "514:514/udp"
+    restart: always
+    container_name: splunk
+volumes:
+  opt_splunk_etc:
+  opt_splunk_var:
+  var_log_mysql:
+networks:
+  splunk:
