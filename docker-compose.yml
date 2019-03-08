@@ -1,17 +1,5 @@
 version: '3.7'
 services:
-  docker-nmap:
-    hostname: docker-nmap
-    build:
-      context: ./nmap
-      dockerfile: Dockerfile
-    image: docker-nmap
-    restart: "no"
-    networks:
-      - splunk
-    container_name: docker-nmap
-    depends_on:
-      - "docker-splunk"
   docker-mysql:
     hostname: docker-mysql
     build:
@@ -25,7 +13,7 @@ services:
       - splunk
     volumes:
       - var_log_mysql:/var/log/mysql
-    container_name: docker-mysql
+    container_name: docker-mysql  
   docker-splunk:
     hostname: docker-splunk
     build:
@@ -53,7 +41,19 @@ services:
     depends_on:
       - "docker-mysql"
     restart: always
-    container_name: docker-splunk
+    container_name: docker-splunk 
+  docker-nmap:
+    hostname: docker-nmap
+    build:
+      context: ./nmap
+      dockerfile: Dockerfile
+    image: docker-nmap
+    restart: "no"
+    networks:
+      - splunk
+    container_name: docker-nmap
+    depends_on:
+      - "docker-splunk"
 volumes:
   opt_splunk_etc:
   opt_splunk_var:
