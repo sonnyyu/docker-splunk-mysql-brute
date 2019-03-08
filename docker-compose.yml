@@ -5,6 +5,7 @@ services:
     build:
       context: ./nmap
       dockerfile: Dockerfile
+    image: docker-nmap
     restart: always
     networks:
       - splunk
@@ -14,6 +15,7 @@ services:
     build:
       context: ./mysql
       dockerfile: Dockerfile
+    image: docker-mysql
     ports:
       - "3306:3306"
     restart: "no"
@@ -27,6 +29,7 @@ services:
     build:
       context: ./splunk
       dockerfile: Dockerfile
+    image: docker-splunk
 #    environment:
 #      - SPLUNK_ENABLE_LISTEN=9997
 #      - SPLUNK_START_ARGS=--accept-license --no-prompt --answer-yes

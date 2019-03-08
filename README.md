@@ -2,6 +2,8 @@ docker-compose up --build
 
 docker-compose up -d
  
+docker run -it --rm docker-nmap  --script=mysql-brute.nse 10.145.89.1
+
 docker-compose stop
  
 docker-compose down
